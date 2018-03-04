@@ -5,7 +5,8 @@ if ! [ $(id -u) = 0 ]; then
 	exit 1
 fi
 
-. /ians_cloud/venv/bin/activate
-python ./ians_cloud/server.py & 
+source /root/ians_cloud/app/venv/bin/activate
+python /root/ians_cloud/app/server.py & 
 deactivate
+mosquitto &
 

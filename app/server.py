@@ -25,16 +25,6 @@ def robot_stop():
 def updateDst():
 	call(['mosquitto_pub', '-t', 'robot/dst', '-m', request.form])
 '''
-@app.route('/v1/register/')	# obsolete; will likely remove 
-def register():
-	pi_ip_port = (request.environ['REMOTE_ADDR'], request.environ['REMOTE_PORT'])
-	print("pi_ip_port = " + str(pi_ip_port))
-	pi_ip_port_file = open('/root/car-cloud/pi_ip_port.txt', 'w')
-	pi_ip_port_file.write(str(pi_ip_port))
-	pi_ip_port_file.close()
-	#call(['echo', 'Pi address registered'])
-	return Response(status=200)
-	
 
 if __name__ == '__main__':
 	app.run(host="0.0.0.0", port=80)
