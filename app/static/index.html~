@@ -1,0 +1,30 @@
+<html>
+<head>
+  
+<form action="./v1/robot_go">
+	<input type="submit" value="Enable Movement">
+</form>
+<form action="./v1/robot_stop">
+	<input type="submit" value="Disable Movement">
+</form>
+
+<p>Select a destination:<p>
+<form id="dst_form" name="chooseDst" action=""  method="post">
+    1 <input type="radio" name="dst" value="1" checked><br>
+    2 <input type="radio" name="dst" value="2"><br>
+    3 <input type="radio" name="dst" value="3"><br>
+    <input type="Submit" name="Submit" 
+                         onclick="getDst();">
+</form>
+
+<p>Current destination: <output name='dst' for=""></output></p>
+
+<script language="javascript">
+function getDst() {
+    var dst = document.getElementById('dst').value();
+    return dst;
+}
+function 
+</script>
+
+</html>
