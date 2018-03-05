@@ -2,14 +2,17 @@
 <head>
   
 <form action="./v1/robot_go">
-	<input type="submit" value="Enable Movement">
-</form>
-<form action="./v1/robot_stop">
-	<input type="submit" value="Disable Movement">
+	<input type="submit" value="Start Mapping">
 </form>
 
+<form action="./v1/robot_stop">
+	<input type="submit" value="End Mapping">
+</form>
+
+<img src="/static/map.png" height="1024" width="1024" />
+<!--
 <p>Select a destination:<p>
-<form id="dst_form" name="chooseDst" action=""  method="post">
+<form id="dst_form" name="chooseDst" action="">
     1 <input type="radio" name="dst" value="1" checked><br>
     2 <input type="radio" name="dst" value="2"><br>
     3 <input type="radio" name="dst" value="3"><br>
@@ -27,4 +30,6 @@ function getDst() {
 function 
 </script>
 
+
+-->
 </html>
