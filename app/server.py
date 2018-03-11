@@ -44,9 +44,9 @@ def stopMapping():
     call(['mosquitto_pub', '-t', 'robot/mapping', '-m', 'robot stop mapping'])
     return redirect("http://35.229.88.91", code=302)
 
-@app.route('/v1/robot_toggle_killSwitch')
+@app.route('/v1/robot_toggle_motorDisable')
 def toggleKillSwitch():
-    call(['mosquitto_pub', '-t', 'robot/killSwitch', '-m', 'toggle'])
+    call(['mosquitto_pub', '-t', 'robot/motorDisable', '-m', 'toggle'])
     return redirect("http://35.229.88.91", code=302)
 
 @app.route('/v1/robot_receive_map', methods=['POST'])
