@@ -69,7 +69,7 @@ def updateDst():
 '''
 
 if __name__ == '__main__':
-    context = ('/root/ians_cloud/server.cert', '/root/ians_cloud/server.key') 
-    app.run(host="0.0.0.0", port=80, ssl_context=context)
+    #context = ('/root/ians_cloud/server.cert', '/root/ians_cloud/server.key') 
+    app.run(host="0.0.0.0", port=80) #ssl_context=context)
 
 
