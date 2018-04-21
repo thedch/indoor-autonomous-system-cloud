@@ -49,7 +49,6 @@ def stopMapping():
 @app.route('/v1/robot_toggle_motor_disable')
 def toggleKillSwitch():
     call(['mosquitto_pub', '-t', 'robot/motor_disable', '-m', 'toggle'])
-    call(['mosquitto_pub', '-t', 'robot/motor_disable', '-m', 'toggle'])
     return redirect(SERVER_ADDR, code=302)
 
 @app.route('/v1/robot_receive_map', methods=['POST'])
@@ -71,13 +70,13 @@ def send_goal_and_initial_pose():
     dst = str(request.form.get('dst'))
     if dst is not None:
         print("dst = " + dst)
-        call(['mosquitto_pub', '-t', 'robot/dst', '-m', str(dst + dst)])
+        call(['mosquitto_pub', '-t', 'robot/dst', '-m', str(dst + " " + dst)])
     initial_position = str(request.form.get('initial_position'))
     facing = str(request.form.get('facing'))
     if initial_position is not None and facing is not None:
         initial_pose = initial_position + " " + facing
         print("initial_pose = " + initial_pose)
-        call(['mosquitto_pub', '-t', 'robot/initial_pose', '-m', str(initial_pose + initial_position)])
+        call(['mosquitto_pub', '-t', 'robot/initial_pose', '-m', str(initial_pose + " " + initial_position)])
     return redirect(SERVER_ADDR, code=302)
 
 
