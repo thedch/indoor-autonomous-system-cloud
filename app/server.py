@@ -7,6 +7,8 @@ import sqlite3
 from flask import g
 import ssl
 
+SERVER_ADDR = "http://35.197.98.244"
+
 '''
 context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
 context.load_cert_chain('/root/ca/intermediate/certs/ca-chain.cert.pem',
@@ -16,7 +18,7 @@ context.load_cert_chain('/root/ca/intermediate/certs/ca-chain.cert.pem',
 
 app = Flask(__name__)
 
-DATABASE = '/root/ians_cloud/app/db/database.db'
+DATABASE = '/root/indoor-autonomous-system-cloud/app/db/database.db'
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
@@ -36,18 +38,19 @@ def homepage():
 def startMapping():
     #call(['echo', 'robot_go'])
     call(['mosquitto_pub', '-t', 'robot/mapping', '-m', 'robot start mapping'])
-    return redirect("http://35.229.88.91", code=302)
+    return redirect(SERVER_ADDR, code=302)
 
 @app.route('/v1/robot_stop_mapping')
 def stopMapping():
     #call(['echo', 'robot_stop'])
     call(['mosquitto_pub', '-t', 'robot/mapping', '-m', 'robot stop mapping'])
-    return redirect("http://35.229.88.91", code=302)
+    return redirect(SERVER_ADDR, code=302)
 
 @app.route('/v1/robot_toggle_motor_disable')
 def toggleKillSwitch():
     call(['mosquitto_pub', '-t', 'robot/motor_disable', '-m', 'toggle'])
-    return redirect("http://35.229.88.91", code=302)
+    call(['mosquitto_pub', '-t', 'robot/motorDisable', '-m', 'toggle'])
+    return redirect(SERVER_ADDR, code=302)
 
 @app.route('/v1/robot_receive_map', methods=['POST'])
 def robot_receive_map():
@@ -69,7 +72,7 @@ def updateDst():
 '''
 
 if __name__ == '__main__':
-    #context = ('/root/ians_cloud/server.cert', '/root/ians_cloud/server.key') 
+    #context = ('/root/indoor-autonomous-system-cloud/server.cert', '/root/indoor-autonomous-system-cloud/server.key') 
     app.run(host="0.0.0.0", port=80) #ssl_context=context)
 
 
