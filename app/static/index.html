@@ -14,28 +14,31 @@
 	<input type="submit" value="Toggle Movement">
 </form>
 
-
-<img src="/static/map.png" height="1024" width="1024" />
-<!--
-<p>Select a destination:<p>
-<form id="dst_form" name="chooseDst" action="">
-    1 <input type="radio" name="dst" value="1" checked><br>
-    2 <input type="radio" name="dst" value="2"><br>
-    3 <input type="radio" name="dst" value="3"><br>
-    <input type="Submit" name="Submit" 
-                         onclick="getDst();">
+<form action="/v1/robot/submit" method="post">
+    <fieldset>
+        <legend>Destination, Starting Position, and Starting Facing</legend>
+        Destination:<br>
+        <select name="dst">
+            <option value="1">1<br>
+            <option value="2"><br>
+            <option value="3"><br>
+            <option value="4"><br>
+        <br>Starting Position:<br>
+        <select name="initial_position">
+            <option value="1">1<br>
+            <option value="2">1<br>
+            <option value="3">1<br>
+            <option value="4">1<br>
+        <br>Starting Facing:<br>
+        <select name="facing">
+            <option value="N">N<br>
+            <option value="E">E<br>
+            <option value="S">S<br>
+            <option value="W">W<br>
+        <input type="submit" value="Submit">
+    </fieldset>
 </form>
 
-<p>Current destination: <output name='dst' for=""></output></p>
+<img src="/static/map.png" height="1024" width="1024" />
 
-<script language="javascript">
-function getDst() {
-    var dst = document.getElementById('dst').value();
-    return dst;
-}
-function 
-</script>
-
-
--->
 </html>
