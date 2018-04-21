@@ -56,26 +56,26 @@ def toggleKillSwitch():
 def robot_receive_map():
     #database = get_db()
     #imagefile = request.files.get('imagefile', '')
-    #request.form['image'].save('/file.jpg')
+    #request.form.get['image'].save('/file.jpg')
     #filename_build = "map-" + datetime.date.today().strftime("%B-%d-%Y") 
     request.files['map.png'].save('./app/static/map.png') 
     
     #minspec return, no checking
     return "wassup" 
-    #print(request.form['name'])
+    #print(request.form.get['name'])
 
 @app.route('/v1/robot/submit', methods=['POST'])
 def send_goal_and_initial_pose():
     if request.method != "POST":
         return "bad request"
-    dst = request.form['dst']
+    dst = request.form.get('dst')
     if dst is not None:
         call(['mosquitto_pub', '-t', 'robot/dst', '-m', dst])
-    initial_position = request.form['initial_position']
-    facing = request.form['facing']
+    initial_position = request.form.get('initial_position')
+    facing = request.form.get('facing')
     if initial_position is not None and facing is not None:
         initial_pose = initial_position + " " + facing
-        call(['mosquitto_pub', '-t', 'robot/set_initial_position', '-m', initial_pose])
+        call(['mosquitto_pub', '-t', 'robot/initial_position', '-m', initial_pose])
     return
 
 
