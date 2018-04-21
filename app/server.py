@@ -68,15 +68,17 @@ def robot_receive_map():
 def send_goal_and_initial_pose():
     if request.method != "POST":
         return "bad request"
-    dst = request.form.get('dst')
+    dst = str(request.form.get('dst'))
     if dst is not None:
-        call(['mosquitto_pub', '-t', 'robot/dst', '-m', dst])
-    initial_position = request.form.get('initial_position')
-    facing = request.form.get('facing')
+        print("dst = " + dst)
+        call(['mosquitto_pub', '-t', 'robot/dst', '-m', str(dst + dst)])
+    initial_position = str(request.form.get('initial_position'))
+    facing = str(request.form.get('facing'))
     if initial_position is not None and facing is not None:
         initial_pose = initial_position + " " + facing
-        call(['mosquitto_pub', '-t', 'robot/initial_position', '-m', initial_pose])
-    return
+        print("initial_pose = " + initial_pose)
+        call(['mosquitto_pub', '-t', 'robot/initial_pose', '-m', str(initial_pose + initial_position)])
+    return redirect(SERVER_ADDR, code=302)
 
 
 
