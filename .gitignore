@@ -4,3 +4,5 @@ venv
 #pycharm auto generated files
 .idea
 
+# vim's previous file versions
+*~
