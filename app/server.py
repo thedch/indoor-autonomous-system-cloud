@@ -49,7 +49,7 @@ def stopMapping():
 @app.route('/v1/robot_toggle_motor_disable')
 def toggleKillSwitch():
     call(['mosquitto_pub', '-t', 'robot/motor_disable', '-m', 'toggle'])
-    call(['mosquitto_pub', '-t', 'robot/motorDisable', '-m', 'toggle'])
+    call(['mosquitto_pub', '-t', 'robot/motor_disable', '-m', 'toggle'])
     return redirect(SERVER_ADDR, code=302)
 
 @app.route('/v1/robot_receive_map', methods=['POST'])
@@ -64,12 +64,21 @@ def robot_receive_map():
     return "wassup" 
     #print(request.form['name'])
 
+@app.route('/v1/robot/submit', methods=['POST'])
+def send_goal_and_initial_pose():
+    if request.method != "POST":
+        return "bad request"
+    dst = request.form['dst']
+    if dst is not None:
+        call(['mosquitto_pub', '-t', 'robot/dst', '-m', dst])
+    initial_position = request.form['initial_position']
+    facing = request.form['facing']
+    if initial_position is not None and facing is not None:
+        initial_pose = initial_position + " " + facing
+        call(['mosquitto_pub', '-t', 'robot/set_initial_position', '-m', initial_pose])
+    return
 
-'''
-@app.route('/v1/updateDst', methods = ['POST'])
-def updateDst():
-	call(['mosquitto_pub', '-t', 'robot/dst', '-m', request.form])
-'''
+
 
 if __name__ == '__main__':
     #context = ('/root/indoor-autonomous-system-cloud/server.cert', '/root/indoor-autonomous-system-cloud/server.key') 
