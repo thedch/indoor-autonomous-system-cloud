@@ -65,18 +65,38 @@ def robot_receive_map():
 
 @app.route('/v1/robot/submit', methods=['POST'])
 def send_goal_and_initial_pose():
+    # check that method is POST
     if request.method != "POST":
         return "bad request"
+    # get params from request, convert to strings of floats and send to robot
     dst = str(request.form.get('dst'))
-    if dst is not None:
-        print("dst = " + dst)
-        call(['mosquitto_pub', '-t', 'robot/dst', '-m', str(dst + " " + dst)])
+    print("dst = " + dst)
+    if dst == "1":
+        dst = "1.0 1.0"
+    if dst == "2":
+        dst = "2.0 2.0"
+    if dst == "3":
+        dst = "3.0 3.0"
+    if dst == "4":
+        dst = "4.0 4.0"
+    call(['mosquitto_pub', '-t', 'robot/dst', '-m', dst])
+
     initial_position = str(request.form.get('initial_position'))
+    if initial_position == "1":
+        initial_position = "1.0 1.0"
+    if initial_position == "2":
+        initial_position = "2.0 2.0"
+    if initial_position == "3":
+        initial_position = "3.0 3.0"
+    if initial_position == "4":
+        initial_position = "4.0 4.0"
+
     facing = str(request.form.get('facing'))
-    if initial_position is not None and facing is not None:
-        initial_pose = initial_position + " " + facing
-        print("initial_pose = " + initial_pose)
-        call(['mosquitto_pub', '-t', 'robot/initial_pose', '-m', str(initial_pose + " " + initial_position)])
+    
+    initial_pose = initial_position + " " + facing
+    print("initial_pose = " + initial_pose)
+    call(['mosquitto_pub', '-t', 'robot/initial_pose', '-m', initial_pose])
+
     return redirect(SERVER_ADDR, code=302)
 
 
