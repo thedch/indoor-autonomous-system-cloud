@@ -9,7 +9,6 @@ from flask import g, session, abort, render_template, flash
 import ssl
 
 SERVER_ADDR = "http://35.197.98.244"
-current_map = "be3"
 
 '''
 context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
@@ -35,6 +34,9 @@ def close_connection(exception):
 
 @app.route("/", methods = ['GET', 'POST'])
 def homepage():
+    map_file = open("current_map.txt", "r")
+    current_map = map_file.read().strip('\n')
+    map_file.close()
     return render_template('map_rendering.html', current_map=current_map) 
 
 @app.route('/v1/robot_start_mapping')
@@ -66,15 +68,19 @@ def robot_receive_map():
     return "wassup" 
     #print(request.form.get['name'])
 
-@app.route('/v1/robot/submit', methods=['POST'])
+@app.route('/v1/robot_submit', methods=['POST'])
 def send_goal_and_initial_pose():
     # check that method is POST
     if request.method != "POST":
         return "bad request"
     # get params from request, convert to strings of floats and send to robot
     dst = str(request.form.get('dst'))
-    print("dst = " + dst)
-    # map from point number to its coordinates
+    # get current map
+    map_file = open("current_map.txt", "r")
+    current_map = map_file.read().strip('\n')
+    map_file.close()
+
+    # translate from point number to its coordinates
     if current_map == "be3":
         if dst == "1":
             dst = "1.0 1.0"
@@ -117,6 +123,15 @@ def send_goal_and_initial_pose():
 
     return redirect(SERVER_ADDR, code=302)
 
+@app.route('/v1/robot_select_map', methods=['POST'])
+def select_map():
+    if request.method != "POST":
+        return "bad request"
+    current_map = str(request.form.get('choose_map'))
+    map_file = open("current_map.txt", "w")
+    map_file.write(current_map)
+    map_file.close()
+    return redirect(SERVER_ADDR, code=302)
 
 
 if __name__ == '__main__':

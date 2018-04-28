@@ -17,8 +17,15 @@
 <form action="./v1/robot_toggle_motor_disable">
 	<input type="submit" value="Toggle Movement">
 </form>
+<br>
+<form action="/v1/robot_select_map" method="post">
+    <fieldset>
+        <legend>Choose a map:</legend>
+        {% block choose_map %}{% endblock %}
+    </fieldset>
+</form><br>
 
-<form action="/v1/robot/submit" method="post">
+<form action="/v1/robot_submit" method="post">
     <fieldset>
         <legend>Destination, Starting Position, and Starting Facing</legend>
         Destination:<br>
