@@ -4,7 +4,8 @@ from flask import Response
 from subprocess import call
 import datetime 
 import sqlite3
-from flask import g
+import os
+from flask import g, session, abort, render_template, flash
 import ssl
 
 SERVER_ADDR = "http://35.197.98.244"
@@ -18,6 +19,7 @@ context.load_cert_chain('/root/ca/intermediate/certs/ca-chain.cert.pem',
 '''
 
 app = Flask(__name__)
+app.config.from_object(__name__)
 
 DATABASE = '/root/indoor-autonomous-system-cloud/app/db/database.db'
 def get_db():
@@ -33,7 +35,7 @@ def close_connection(exception):
 
 @app.route("/", methods = ['GET', 'POST'])
 def homepage():
-    return app.send_static_file('index.html') 
+    return render_template('map_rendering.html', current_map=current_map) 
 
 @app.route('/v1/robot_start_mapping')
 def startMapping():
@@ -72,25 +74,40 @@ def send_goal_and_initial_pose():
     # get params from request, convert to strings of floats and send to robot
     dst = str(request.form.get('dst'))
     print("dst = " + dst)
-    if dst == "1":
-        dst = "1.0 1.0"
-    if dst == "2":
-        dst = "2.0 2.0"
-    if dst == "3":
-        dst = "3.0 3.0"
-    if dst == "4":
-        dst = "4.0 4.0"
+    # map from point number to its coordinates
+    if current_map == "be3":
+        if dst == "1":
+            dst = "1.0 1.0"
+        if dst == "2":
+            dst = "2.0 2.0"
+        if dst == "3":
+            dst = "3.0 3.0"
+    if current_map == "be1":
+        if dst == "1":
+            dst = "1.0 1.0"
+        if dst == "2":
+            dst = "2.0 2.0"
+        if dst == "3":
+            dst = "3.0 3.0"
+
     call(['mosquitto_pub', '-t', 'robot/dst', '-m', dst])
 
     initial_position = str(request.form.get('initial_position'))
-    if initial_position == "1":
-        initial_position = "1.0 1.0"
-    if initial_position == "2":
-        initial_position = "2.0 2.0"
-    if initial_position == "3":
-        initial_position = "3.0 3.0"
-    if initial_position == "4":
-        initial_position = "4.0 4.0"
+    # map from point number to its coordinates
+    if current_map == "be3":
+        if initial_position == "1":
+            initial_position = "1.0 1.0"
+        if initial_position == "2":
+            initial_position = "2.0 2.0"
+        if initial_position == "3":
+            initial_position = "3.0 3.0"
+    if current_map == "be1":
+        if initial_position == "1":
+            initial_position = "1.0 1.0"
+        if initial_position == "2":
+            initial_position = "2.0 2.0"
+        if initial_position == "3":
+            initial_position = "3.0 3.0"
 
     facing = str(request.form.get('facing'))
     
@@ -103,7 +120,6 @@ def send_goal_and_initial_pose():
 
 
 if __name__ == '__main__':
-    #context = ('/root/indoor-autonomous-system-cloud/server.cert', '/root/indoor-autonomous-system-cloud/server.key') 
-    app.run(host="0.0.0.0", port=80) #ssl_context=context)
+    app.run(host="0.0.0.0", port=80) 
 
 

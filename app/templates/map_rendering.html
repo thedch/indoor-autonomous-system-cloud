@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% block dropdown_options%}
+    {% if current_map == "be3": %}
+    <select name="dst">
+        <option value="1">North Exit<br>
+        <option value="2">Conference Rooms<br>
+        <option value="3">Vending Machine<br>
+    </select>
+    {% elif current_map == "be1": %}
+    <select name="dst">
+        <option value="1">Jack's Lounge<br>
+        <option value="2">Perk's Coffee Lounge<br>
+        <option value="3">Main Entrance<br>
+    </select>
+    {% else %}
+    <p>No map selected!</p>
+    {% endif %}
+        
+    <br>Starting Position:<br>
+    {% if current_map == "be3": %}
+    <select name="initial_position">
+        <option value="1">North Exit<br>
+        <option value="2">Conference Rooms<br>
+        <option value="3">Vending Machine<br>
+    </select>
+    {% elif current_map == "be1": %}
+    <select name="initial_position">
+        <option value="1">Jack's Lounge<br>
+        <option value="2">Perk's Coffee Lounge<br>
+        <option value="3">Main Entrance<br>
+    </select>
+    {% else %}
+    <p>No map selected!</p>
+    {% endif %}
+{% endblock %}
+
+{% block map_img %}
+    {% if current_map == "be3": %}
+    <img src="/static/be3.png" height="768" width="1024"/>
+    {% elif current_map == "be1" %}
+    <img src="/static/be1.png" height="768" width="1024"/>
+    {% endif %}
+{% endblock %}
+
