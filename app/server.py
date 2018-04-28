@@ -8,6 +8,7 @@ from flask import g
 import ssl
 
 SERVER_ADDR = "http://35.197.98.244"
+current_map = "be3"
 
 '''
 context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)

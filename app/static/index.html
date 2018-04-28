@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
   
 <form action="./v1/robot_start_mapping">
@@ -19,18 +20,21 @@
         <legend>Destination, Starting Position, and Starting Facing</legend>
         Destination:<br>
         <select name="dst">
-            <option value="1">1<br>
-            <option value="2">2<br>
-            <option value="3">3<br>
-            <option value="4">4<br>
+            {{if current_map == "be3":}}
+            <option value="1">North Exit<br>
+            <option value="2">Conference Rooms<br>
+            <option value="3">Vending Machine<br>
+            {{endif}}
         </select>
         <br>Starting Position:<br>
         <select name="initial_position">
-            <option value="1">1<br>
-            <option value="2">2<br>
-            <option value="3">3<br>
-            <option value="4">4<br>
+            {{if current_map == "be3":}}
+            <option value="1">North Exit<br>
+            <option value="2">Conference Rooms<br>
+            <option value="3">Vending Machine<br>
+            {{endif}}
         </select>
+
         <br>Starting Facing:<br>
         <select name="facing">
             <!-- values come from experimenting with rviz -->
@@ -43,6 +47,11 @@
     </fieldset>
 </form>
 
-<img src="/static/map.png" height="1024" width="1024" />
+{{if current_map == "be3":}}
+<img src="/static/be3.png" height="1024" width="1024" />
+{{endif}}
+`
+
+{{
 
 </html>
