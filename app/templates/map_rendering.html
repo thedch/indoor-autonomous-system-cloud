@@ -46,8 +46,15 @@
 
 {% block choose_map %}
 <select name="choose_map">
+    {% if current_map == "be3" %}
+    <option value="be1">Baskin Engineering 1st Floor<br>
+    <option selected="selected" value="be3">Baskin Engineering 3rd Floor<br>
+    {% else %}
     <option value="be1">Baskin Engineering 1st Floor<br>
     <option value="be3">Baskin Engineering 3rd Floor<br>
+    {% endif %}
+    
+
 </select>
 <input type="submit" value="Select Map">
 {% endblock %}
