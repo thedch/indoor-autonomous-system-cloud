@@ -80,46 +80,51 @@ def send_goal_and_initial_pose():
     current_map = map_file.read().strip('\n')
     map_file.close()
 
-    # translate from point number to its coordinates
-    if current_map == "be3":
-        if dst == "1":
-            dst = "1.0 1.0"
-        if dst == "2":
-            dst = "2.0 2.0"
-        if dst == "3":
-            dst = "3.0 3.0"
-    if current_map == "be1":
-        if dst == "1":
-            dst = "1.0 1.0"
-        if dst == "2":
-            dst = "2.0 2.0"
-        if dst == "3":
-            dst = "3.0 3.0"
-
-    call(['mosquitto_pub', '-t', 'robot/dst', '-m', dst])
-
     initial_position = str(request.form.get('initial_position'))
     # map from point number to its coordinates
     if current_map == "be3":
         if initial_position == "1":
-            initial_position = "1.0 1.0"
+            initial_position = "-43.3 14.4"
         if initial_position == "2":
-            initial_position = "2.0 2.0"
+            initial_position = "-67.5 1.5"
         if initial_position == "3":
-            initial_position = "3.0 3.0"
+            initial_position = "-12.1 2.25"
     if current_map == "be1":
         if initial_position == "1":
-            initial_position = "1.0 1.0"
+            initial_position = "19.1 14.9"
         if initial_position == "2":
-            initial_position = "2.0 2.0"
+            initial_position = "-38.6 4.0"
         if initial_position == "3":
-            initial_position = "3.0 3.0"
+            initial_position = "-37.6 27.6"
+        if initial_position == "4":
+            initial_position = "-5.4 -3.4"
 
     facing = str(request.form.get('facing'))
     
     initial_pose = initial_position + " " + facing
     print("initial_pose = " + initial_pose)
     call(['mosquitto_pub', '-t', 'robot/initial_pose', '-m', initial_pose])
+
+    # translate from point number to its coordinates
+    if current_map == "be3":
+        if dst == "1":
+            dst = "-43.3 14.4"
+        if dst == "2":
+            dst = "-67.5 1.5"
+        if dst == "3":
+            dst = "-12.1 2.25"
+    if current_map == "be1":
+        if dst == "1":
+            dst = "19.1 14.9"
+        if dst == "2":
+            dst = "-38.6 4.0"
+        if dst == "3":
+            dst = "-37.6 27.6"
+        if dst == "4":
+            dst = "-5.4 -3.4"
+
+    call(['mosquitto_pub', '-t', 'robot/dst', '-m', dst])
+
 
     return redirect(SERVER_ADDR, code=302)
 
