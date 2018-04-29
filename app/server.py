@@ -99,11 +99,7 @@ def send_goal_and_initial_pose():
         if initial_position == "4":
             initial_position = "-5.4 -3.4"
 
-    facing = str(request.form.get('facing'))
-    
-    initial_pose = initial_position + " " + facing
-    print("initial_pose = " + initial_pose)
-    call(['mosquitto_pub', '-t', 'robot/initial_pose', '-m', initial_pose])
+    call(['mosquitto_pub', '-t', 'robot/initial_pose', '-m', initial_position])
 
     # translate from point number to its coordinates
     if current_map == "be3":
