@@ -34,9 +34,12 @@ def close_connection(exception):
 
 @app.route("/", methods = ['GET', 'POST'])
 def homepage():
-    map_file = open("current_map.txt", "r")
-    current_map = map_file.read().strip('\n')
-    map_file.close()
+    try:
+        map_file = open("current_map.txt", "r")
+        current_map = map_file.read().strip('\n')
+        map_file.close()
+    except IOError:
+        current_map = "be1"
     return render_template('map_rendering.html', current_map=current_map) 
 
 @app.route('/v1/robot_start_mapping')
