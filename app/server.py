@@ -3,34 +3,14 @@ from flask import request, redirect, url_for
 from flask import Response
 from subprocess import call
 import datetime 
-import sqlite3
 import os
 from flask import g, session, abort, render_template, flash
-import ssl
 
 SERVER_ADDR = "http://35.197.98.244"
-
-'''
-context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
-context.load_cert_chain('/root/ca/intermediate/certs/ca-chain.cert.pem',
-        keyfile='/root/ca/intermediate/private/35.229.88.91.key.pem',
-        password="12345")
-'''
 
 app = Flask(__name__)
 app.config.from_object(__name__)
 
-DATABASE = '/root/indoor-autonomous-system-cloud/app/db/database.db'
-def get_db():
-    db = getattr(g, '_database', None)
-    if db is None:
-        db = g._database = sqlite3.connect(DATABASE)
-    return db
-
-def close_connection(exception):
-    db = getattr(g, '_database', None)
-    if db is not None:
-        db.close()
 
 @app.route("/", methods = ['GET', 'POST'])
 def homepage():
@@ -65,10 +45,6 @@ def toggleKillSwitch():
 
 @app.route('/v1/robot_receive_map', methods=['POST'])
 def robot_receive_map():
-    #database = get_db()
-    #imagefile = request.files.get('imagefile', '')
-    #request.form.get['image'].save('/file.jpg')
-    #filename_build = "map-" + datetime.date.today().strftime("%B-%d-%Y") 
     request.files['map.png'].save('./app/static/map.png') 
     
     #minspec return, no checking
@@ -83,9 +59,16 @@ def send_goal_and_initial_pose():
     # get params from request, convert to strings of floats and send to robot
     dst = str(request.form.get('dst'))
     # get current map
-    map_file = open("current_map.txt", "r")
-    current_map = map_file.read().strip('\n')
-    map_file.close()
+    try:
+        map_file = open("current_map.txt", "r")
+        current_map = map_file.read().strip('\n')
+        map_file.close()
+    except IOError:
+        # if there is no current_map.txt, assume BE1 and create the file
+        current_map = "be1"
+        map_file = open("current_map.txt", "w")
+        map_file.write(current_map)
+        map_file.close()
 
     initial_position = str(request.form.get('initial_position'))
     # map from point number to its coordinates
