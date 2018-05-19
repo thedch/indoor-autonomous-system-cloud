@@ -48,7 +48,7 @@ def robot_receive_map():
     request.files['map.png'].save('./app/static/map.png') 
     
     #minspec return, no checking
-    return "wassup" 
+    return "success" 
     #print(request.form.get['name'])
 
 @app.route('/v1/robot_submit', methods=['POST'])
