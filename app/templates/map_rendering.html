@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block dropdown_options%}
             
-    <br>Starting Position:<br>
+    Starting Position:<br>
     {% if current_map == "be3": %}
     <select name="initial_position">
         <option value="1">North Exit<br>
@@ -18,8 +18,8 @@
     {% else %}
     <p>No map selected!</p>
     {% endif %}
-
-    Destination:<br>
+    <br>
+    <br>Destination:<br>
     {% if current_map == "be3": %}
     <select name="dst">
         <option value="1">North Exit<br>
